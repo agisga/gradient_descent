@@ -1,33 +1,32 @@
 # Copyright (c) 2016 Alexej Gossmann 
  
 module GradientDescent
-  
+
   # TODO: docs
-  class Optimizer 
+  #
+  # === Arguments
+  #
+  # * +x0+        - initial parameter estimate
+  # * +t+         - step size
+  # * +max_iter+  - maximum number of iterations
+  # * +tol+       - convergence tolerance
+  # * +backtrack+ - boolean for whether backtracking line search should be used or not
+  # * +f+         - a +Proc+ object that returns the value of the
+  #   objective function at any given parameter
+  # * +gradf+     - a +Proc+ object that returns the value of the gradient of the
+  #   objective function at any given parameter
+  #
+  def GradientDescent.optimize(x0: , t: , max_iter: 100, tol: 1e-3, backtrack: TRUE, f: , gradf: )
+    opt = Optimizer.new
 
-    attr_reader :optimum
-
-    # TODO: docs
-    #
-    # === Arguments
-    #
-    # * +x0+        - initial parameter estimate
-    # * +t+         - step size
-    # * +max_iter+  - maximum number of iterations
-    # * +tol+       - convergence tolerance
-    # * +backtrack+ - boolean for whether backtracking line search should be used or not
-    # * +f+         - a +Proc+ object that returns the value of the
-    #   objective function at any given parameter
-    # * +gradf+     - a +Proc+ object that returns the value of the gradient of the
-    #   objective function at any given parameter
-    #
-    def initialize(x0: , t: , max_iter: 100, tol: 1e-3, backtrack: TRUE, f: , gradf: )
-      if backtrack then
-        @optimum = gradient_descent_backtrack(x0: x0, t: t, max_iter: max_iter, tol: tol, f: f, gradf: gradf)
-      else
-        @optimum = gradient_descent_fixed(x0: x0, t: t, max_iter: max_iter, tol: tol, f: f, gradf: gradf)
-      end
+    if backtrack then
+      opt.gradient_descent_backtrack(x0: x0, t: t, max_iter: max_iter, tol: tol, f: f, gradf: gradf)
+    else
+      opt.gradient_descent_fixed(x0: x0, t: t, max_iter: max_iter, tol: tol, f: f, gradf: gradf)
     end
+  end
+
+  class Optimizer
 
     # TODO: docs
     #
@@ -150,5 +149,4 @@ module GradientDescent
               :iterations => iter, :relative_error => relative_error}
     end
   end
-
 end
