@@ -2,7 +2,3 @@
 
 require "gradient_descent/version"
 require "gradient_descent/gradient_descent"
-
-module GradientDescent
-  # Your code goes here...
-end
